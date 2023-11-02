@@ -1,25 +1,33 @@
 package com.kiylx.compose_lib.pref_component
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.ArrowDropUp
 import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,7 +37,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.kiylx.compose_lib.pref_component.Typography.preferenceDescription
+import com.kiylx.compose_lib.pref_component.Typography.preferenceMediumTitle
 import com.kiylx.compose_lib.theme3.LocalColorScheme
 import com.kiylx.compose_lib.theme3.applyOpacity
 import com.kiylx.compose_lib.theme3.harmonizeWithPrimary
@@ -77,6 +86,69 @@ fun PreferenceItem(
 
 }
 
+/**
+ * preference item
+ */
+@Composable
+fun CollapsePreferenceItem(
+    title: String,
+    description: String? = null,
+    icon: Any? = null,
+    enabled: Boolean = true,
+    close: Boolean = false,
+    stateChanged: (isOpen: Boolean) -> Unit = {},
+    content: @Composable ColumnScope.() -> Unit
+) {
+    var isOpen by remember {
+        mutableStateOf(close)
+    }
+    Surface(
+        modifier = Modifier.toggleable(isOpen, enabled, null) {
+            isOpen = it
+            stateChanged(it)
+        }
+    ) {
+        Column( modifier = Modifier
+            .fillMaxWidth()
+            .padding(Dimens.all.horizontal.dp, Dimens.all.vertical.dp),) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                ParseIcon(icon = icon, enabled = enabled)
+                MediumTextContainer(icon = icon) {
+                    PreferenceItemTitleText(text = title, enabled = enabled, maxLines = 2)
+                    if (description != null) PreferenceItemDescriptionText(
+                        text = description,
+                        enabled = enabled
+                    )
+                }
+                if (isOpen) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowDropDown,
+                        contentDescription = null,
+                        modifier = Modifier.size(Dimens.large_xx.dp),
+                    )
+                } else {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowDropUp,
+                        contentDescription = null,
+                        modifier = Modifier.size(Dimens.large_xx.dp),
+                    )
+
+                }
+
+            }
+            AnimatedVisibility(visible = isOpen) {
+                Column(modifier = Modifier.padding(Dimens.small_s.dp)) {
+                    content()
+                }
+            }
+        }
+
+    }
+
+}
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PreferenceItemVariant(
@@ -105,21 +177,23 @@ fun PreferenceItemVariant(
                 .padding(Dimens.all.horizontal.dp, Dimens.all.vertical.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            ParseIcon(icon, enabled)
-            MediumTextContainer(icon) {
+            ParseIcon(icon = icon, enabled = enabled)
+            MediumTextContainer(icon = icon) {
                 with(MaterialTheme) {
-                    Text(
+                    PreferenceItemTitleText(
                         text = title,
                         maxLines = 1,
                         style = typography.titleMedium,
                         color = colorScheme.onSurface.applyOpacity(enabled)
                     )
-                    if (description != null) Text(
-                        text = description,
-                        color = colorScheme.onSurfaceVariant.applyOpacity(enabled),
-                        maxLines = 2, overflow = TextOverflow.Ellipsis,
-                        style = typography.bodyMedium,
-                    )
+                    description?.let {
+                        PreferenceItemDescriptionText(
+                            text = it,
+                            color = colorScheme.onSurfaceVariant.applyOpacity(enabled),
+                            maxLines = 2, overflow = TextOverflow.Ellipsis,
+                            style = preferenceDescription,
+                        )
+                    }
                 }
             }
         }
@@ -139,7 +213,7 @@ fun PreferencesCautionCard(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = Dimens.small.dp, vertical = Dimens.medium.dp)
+            .padding(horizontal = Dimens.all.horizontal.dp, vertical = Dimens.all.vertical.dp)
             .clip(MaterialTheme.shapes.extraLarge)
             .background(MaterialTheme.colorScheme.errorContainer.harmonizeWithPrimary())
             .clickable { onClick() }
@@ -147,26 +221,22 @@ fun PreferencesCautionCard(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         ParseIcon(icon = icon, enabled = true)
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(horizontal = if (icon == null) Dimens.text.start.dp else 0.dp)
-                .padding(end = Dimens.text.end.dp)
-        ) {
+        MediumTextContainer(icon = icon) {
             with(MaterialTheme) {
-
-                Text(
+                PreferenceItemTitleText(
                     text = title,
                     maxLines = 1,
                     style = typography.titleLarge,
                     color = colorScheme.onErrorContainer.harmonizeWithPrimary()
                 )
-                if (description != null) Text(
-                    text = description,
-                    color = colorScheme.onErrorContainer.harmonizeWithPrimary(),
-                    maxLines = 2, overflow = TextOverflow.Ellipsis,
-                    style = typography.bodyMedium,
-                )
+                description?.let {
+                    PreferenceItemDescriptionText(
+                        text = it,
+                        color = colorScheme.onErrorContainer.harmonizeWithPrimary(),
+                        maxLines = 2, overflow = TextOverflow.Ellipsis,
+                        style = preferenceDescription,
+                    )
+                }
             }
         }
     }
@@ -178,7 +248,7 @@ fun PreferencesCautionCard(
 fun PreferencesHintCard(
     title: String = "Title ".repeat(2),
     description: String? = "Description text ".repeat(3),
-    icon: ImageVector? = Icons.Outlined.Translate,
+    icon: Any? = Icons.Outlined.Translate,
     backgroundColor: Color = LocalColorScheme.current.secondary,
     contentColor: Color = LocalColorScheme.current.onSecondary,
     onClick: () -> Unit = {},
@@ -186,40 +256,27 @@ fun PreferencesHintCard(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 12.dp)
+            .padding(horizontal = Dimens.all.horizontal.dp, vertical = Dimens.all.vertical.dp)
             .clip(MaterialTheme.shapes.extraLarge)
             .background(backgroundColor)
             .clickable { onClick() }
-            .padding(horizontal = 12.dp, vertical = 16.dp),
+            .padding(horizontal = Dimens.medium.dp, vertical = Dimens.large.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        icon?.let {
-            Icon(
-                imageVector = icon,
-                contentDescription = null,
-                modifier = Modifier
-                    .padding(start = 8.dp, end = 16.dp)
-                    .size(24.dp),
-                tint = contentColor
+        ParseIcon(icon = icon, tint = contentColor)
+        MediumTextContainer(icon = icon) {
+            PreferenceItemTitleText(
+                text = title,
+                maxLines = 1,
+                style = preferenceMediumTitle,
+                color = contentColor
             )
-        }
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(start = if (icon == null) 12.dp else 0.dp, end = 12.dp)
-        ) {
-            with(MaterialTheme) {
-                Text(
-                    text = title,
-                    maxLines = 1,
-                    style = typography.titleLarge.copy(fontSize = 20.sp),
-                    color = contentColor
-                )
-                if (description != null) Text(
+            description?.let {
+                PreferenceItemDescriptionText(
                     text = description,
                     color = contentColor,
                     maxLines = 2, overflow = TextOverflow.Ellipsis,
-                    style = typography.bodyMedium,
+                    style = preferenceDescription,
                 )
             }
         }
@@ -303,7 +360,10 @@ fun PreferenceItemSubTitle(
 
 
 @Composable
-internal fun ParseIcon(icon: Any? = null, enabled: Boolean = true) {
+internal fun ParseIcon(
+    icon: Any? = null, enabled: Boolean = true,
+    tint: Color = MaterialTheme.colorScheme.onSurfaceVariant.applyOpacity(enabled)
+) {
     val iconModifier = Modifier
         .padding(start = Dimens.icon.start.dp, end = Dimens.icon.end.dp)
         .size(Dimens.icon.size.dp)
@@ -314,7 +374,7 @@ internal fun ParseIcon(icon: Any? = null, enabled: Boolean = true) {
                 imageVector = icon,
                 contentDescription = null,
                 modifier = iconModifier,
-                tint = MaterialTheme.colorScheme.onSurfaceVariant.applyOpacity(enabled)
+                tint = tint
             )
         }
 
@@ -323,7 +383,7 @@ internal fun ParseIcon(icon: Any? = null, enabled: Boolean = true) {
                 painter = icon,
                 contentDescription = null,
                 modifier = iconModifier,
-                tint = MaterialTheme.colorScheme.onSurfaceVariant.applyOpacity(enabled)
+                tint = tint
             )
         }
 
@@ -340,8 +400,8 @@ internal fun PreferenceItemTitleText(
     modifier: Modifier = Modifier,
     text: String,
     maxLines: Int = 2,
-    style: TextStyle = Typography.preferenceMediumTitle,
-    enabled: Boolean,
+    style: TextStyle = preferenceMediumTitle,
+    enabled: Boolean = true,
     color: Color = MaterialTheme.colorScheme.onBackground,
     overflow: TextOverflow = TextOverflow.Ellipsis
 ) {
@@ -360,8 +420,8 @@ internal fun PreferenceItemDescriptionText(
     modifier: Modifier = Modifier,
     text: String,
     maxLines: Int = Int.MAX_VALUE,
-    style: TextStyle = Typography.preferenceDescription,
-    enabled: Boolean,
+    style: TextStyle = preferenceDescription,
+    enabled: Boolean = true,
     color: Color = MaterialTheme.colorScheme.onSurfaceVariant,
     overflow: TextOverflow = TextOverflow.Ellipsis
 ) {

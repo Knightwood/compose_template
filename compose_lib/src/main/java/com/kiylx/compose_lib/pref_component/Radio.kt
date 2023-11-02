@@ -26,6 +26,8 @@ import androidx.compose.ui.unit.sp
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import com.kiylx.compose_lib.common.asDataFlow
+import com.kiylx.compose_lib.pref_component.Typography.preferenceMediumTitle
+import com.kiylx.compose_lib.theme3.applyOpacity
 import kotlinx.coroutines.launch
 
 /**
@@ -35,22 +37,21 @@ import kotlinx.coroutines.launch
 fun PreferenceRadioGroup(
     keyName :String,
     labels: List<String>,
-    contentPadding: PaddingValues = PaddingValues(
-        start = 8.dp,
-        top = 8.dp,
-        bottom = 12.dp,
-        end = 8.dp
-    ),
+    enabled: Boolean = true,
+    dependenceKey:String?=null,
     changed: (newIndex: Int) -> Unit = {},
 ) {
-    val key = intPreferencesKey(keyName)
     val scope = rememberCoroutineScope()
-    val dataStore = LocalPrefs.current.dataStore()
+    val prefStoreHolder = LocalPrefs.current
+    val pref =prefStoreHolder.getReadWriteTool(keyName = keyName, defaultValue = 0)
+    //注册自身节点，并且获取目标节点的状态
+    val dependenceState = prefStoreHolder.getDependence(keyName,enabled,dependenceKey).enableState
+
     var selectedPos by remember {
         mutableStateOf(0)
     }
     LaunchedEffect(key1 = Unit, block = {
-        dataStore.asDataFlow(key,0).collect {
+        pref.read().collect {
             selectedPos = it
             changed(it)
         }
@@ -58,9 +59,7 @@ fun PreferenceRadioGroup(
 
     fun write(pos: Int) {
         scope.launch {
-            dataStore.edit {
-                it[key] = pos
-            }
+            pref.write(pos)
         }
     }
 
@@ -68,8 +67,8 @@ fun PreferenceRadioGroup(
         repeat(labels.size) { pos: Int ->
             PreferenceSingleChoiceItem(
                 text = labels[pos],
+                enabled=dependenceState.value,
                 selected = (pos==selectedPos),
-                contentPadding=contentPadding,
                 onClick = {
                    write(pos)
                 }
@@ -83,40 +82,36 @@ fun PreferenceSingleChoiceItem(
     modifier: Modifier = Modifier,
     text: String,
     selected: Boolean,
-    contentPadding: PaddingValues = PaddingValues(
-        start = 8.dp,
-        top = 8.dp,
-        bottom = 12.dp,
-        end = 8.dp
-    ),
+    enabled: Boolean,
     onClick: () -> Unit
 ) {
     Surface(
         modifier = Modifier.selectable(
+            enabled=enabled,
             selected = selected, onClick = onClick
         )
     ) {
         Row(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(contentPadding),
+                .padding(horizontal = Dimens.all.horizontal.dp, vertical =Dimens.small_s.dp ),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             RadioButton(
                 selected = selected,
+                enabled=enabled,
                 onClick = { onClick.invoke() },
                 modifier = Modifier
-                    .padding()
                     .clearAndSetSemantics { },
             )
             Text(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(start = 10.dp),
+                    .padding(start = Dimens.text.start.dp,end =Dimens.text.end.dp),
                 text = text,
                 maxLines = 1,
-                style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp),
-                color = MaterialTheme.colorScheme.onSurface,
+                style = preferenceMediumTitle,
+                color =MaterialTheme.colorScheme.onSurface.applyOpacity(enabled) ,
                 overflow = TextOverflow.Ellipsis
             )
 

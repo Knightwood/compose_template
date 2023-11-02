@@ -2,7 +2,6 @@ package com.kiylx.compose_lib.pref_component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,7 +18,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -40,8 +38,6 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import com.kiylx.compose_lib.R
 import com.kiylx.compose_lib.common.asDataFlow
-import com.kiylx.compose_lib.pref_component.Dimens.horizontal
-import com.kiylx.compose_lib.pref_component.Dimens.vertical
 import com.kiylx.compose_lib.theme3.LocalColorScheme
 import com.kiylx.compose_lib.theme3.preferenceTitle
 import kotlinx.coroutines.launch
@@ -49,6 +45,8 @@ import kotlinx.coroutines.launch
 
 /**
  * @param changed 将会得到新值
+ * @param enabled 自身状态，若存在dependenceKey，自身显现出来的状态则依据dependenceKey指定的状态，而不是enable参数
+ * @param dependenceKey 依赖于哪个key的状态，若为null，自身显现出来的状态依据enable参数
  */
 @Composable
 fun PreferenceSwitch(
@@ -58,17 +56,21 @@ fun PreferenceSwitch(
     description: String? = null,
     icon: Any? = null,
     enabled: Boolean = true,
+    dependenceKey:String?=null,
     checkedIcon: ImageVector = Icons.Outlined.Check,
     changed: (newValue: Boolean) -> Unit = {},
 ) {
-    val key = booleanPreferencesKey(keyName)
     val scope = rememberCoroutineScope()
-    val dataStore = LocalPrefs.current.dataStore()
+    val prefStoreHolder = LocalPrefs.current
+    val pref =prefStoreHolder.getReadWriteTool(keyName = keyName, defaultValue = defaultValue)
+    //注册自身节点，并且获取目标节点的状态
+    val dependenceState = prefStoreHolder.getDependence(keyName,enabled,dependenceKey).enableState
+
     var isChecked by remember {
         mutableStateOf(defaultValue)
     }
     LaunchedEffect(key1 = Unit, block = {
-        dataStore.asDataFlow(key, defaultValue).collect {
+        pref.read().collect {
             isChecked = it
             changed(it)
         }
@@ -76,9 +78,7 @@ fun PreferenceSwitch(
 
     fun write(checked: Boolean) {
         scope.launch {
-            dataStore.edit {
-                it[key] = checked
-            }
+            pref.write(checked)
         }
     }
 
@@ -96,7 +96,7 @@ fun PreferenceSwitch(
     Surface(
         modifier = Modifier.toggleable(
             value = isChecked,
-            enabled = enabled,
+            enabled = dependenceState.value,
             onValueChange = { checked ->
                 write(checked)
             }
@@ -110,20 +110,22 @@ fun PreferenceSwitch(
         ) {
             ParseIcon(
                 icon = icon,
-                enabled = enabled
+                enabled = dependenceState.value
             )
             MediumTextContainer(icon = icon) {
-                PreferenceItemTitleText(text = title, enabled = enabled, maxLines = 2)
-                if (description != null) PreferenceItemDescriptionText(
-                    text = description,
-                    enabled = enabled
-                )
+                PreferenceItemTitleText(text = title, enabled = dependenceState.value, maxLines = 2)
+                description?.let {
+                    PreferenceItemDescriptionText(
+                        text = it,
+                        enabled = dependenceState.value
+                    )
+                }
             }
             Switch(
                 checked = isChecked,
                 onCheckedChange = null,
                 modifier = Modifier.padding(start = Dimens.end.start.dp, end = Dimens.end.end.dp),
-                enabled = enabled,
+                enabled = dependenceState.value,
                 thumbContent = thumbContent
             )
         }
@@ -143,19 +145,23 @@ fun PreferenceSwitchWithDivider(
     description: String? = null,
     icon: Any? = null,
     enabled: Boolean = true,
+    dependenceKey:String?=null,
     isSwitchEnabled: Boolean = enabled,
     checkedIcon: ImageVector = Icons.Outlined.Check,
     changed: (it: Boolean) -> Unit = {},
     onClick: (() -> Unit) = {},
 ) {
-    val key = booleanPreferencesKey(keyName)
     val scope = rememberCoroutineScope()
-    val dataStore = LocalPrefs.current.dataStore()
+    val prefStoreHolder = LocalPrefs.current
+    val pref =prefStoreHolder.getReadWriteTool(keyName = keyName, defaultValue = defaultValue)
+    //注册自身节点，并且获取目标节点的状态
+    val dependenceState = prefStoreHolder.getDependence(keyName,enabled,dependenceKey).enableState
+
     var isChecked by remember {
         mutableStateOf(defaultValue)
     }
     LaunchedEffect(key1 = Unit, block = {
-        dataStore.asDataFlow(key, defaultValue).collect {
+        pref.read().collect {
             isChecked = it
             changed(it)
         }
@@ -163,9 +169,7 @@ fun PreferenceSwitchWithDivider(
 
     fun write(checked: Boolean) {
         scope.launch {
-            dataStore.edit {
-                it[key] = checked
-            }
+            pref.write(checked)
         }
     }
 
@@ -182,7 +186,7 @@ fun PreferenceSwitchWithDivider(
     }
     Surface(
         modifier = Modifier.clickable(
-            enabled = enabled,
+            enabled = dependenceState.value,
             onClick = onClick,
             onClickLabel = stringResource(id = R.string.open_settings)
         )
@@ -190,18 +194,16 @@ fun PreferenceSwitchWithDivider(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal.dp, vertical.dp)
+                .padding(Dimens.all.horizontal.dp, Dimens.all.vertical.dp)
                 .height(IntrinsicSize.Min),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            ParseIcon(icon = icon, enabled = enabled)
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
-                PreferenceItemTitleText(text = title, enabled = enabled)
+            ParseIcon(icon = icon, enabled = dependenceState.value)
+            MediumTextContainer(icon = icon) {
+                PreferenceItemTitleText(text = title, enabled = dependenceState.value)
                 if (!description.isNullOrEmpty()) PreferenceItemDescriptionText(
                     text = description,
-                    enabled = enabled
+                    enabled = dependenceState.value
                 )
             }
             Divider(
@@ -222,7 +224,7 @@ fun PreferenceSwitchWithDivider(
                     .semantics {
                         contentDescription = title
                     },
-                enabled = isSwitchEnabled,
+                enabled = (isSwitchEnabled && dependenceState.value),
                 thumbContent = thumbContent
             )
         }
@@ -234,26 +236,29 @@ fun PreferenceSwitchWithContainer(
     keyName: String,
     defaultValue: Boolean = false,
     title: String,
-    icon: ImageVector? = null,
+    icon: Any? = null,
+    enabled: Boolean = true,
+    dependenceKey:String?=null,
     changed: (it: Boolean) -> Unit = {},
 ) {
-    val key = booleanPreferencesKey(keyName)
     val scope = rememberCoroutineScope()
-    val dataStore = LocalPrefs.current.dataStore()
+    val prefStoreHolder = LocalPrefs.current
+    val pref =prefStoreHolder.getReadWriteTool(keyName = keyName, defaultValue = defaultValue)
+    //注册自身节点，并且获取目标节点的状态
+    val dependenceState = prefStoreHolder.getDependence(keyName,enabled,dependenceKey).enableState
+
     var isChecked by remember {
         mutableStateOf(defaultValue)
     }
     LaunchedEffect(key1 = Unit, block = {
-        dataStore.asDataFlow(key, defaultValue).collect {
+        pref.read().collect {
             isChecked = it
             changed(it)
         }
     })
     fun write(checked: Boolean) {
         scope.launch {
-            dataStore.edit {
-                it[key] = checked
-            }
+            pref.write(checked)
         }
     }
 
@@ -271,37 +276,30 @@ fun PreferenceSwitchWithContainer(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 12.dp)
+            .padding(horizontal = Dimens.all.horizontal.dp, vertical = Dimens.all.vertical.dp)
             .clip(MaterialTheme.shapes.extraLarge)
             .background(
                 if (isChecked) LocalColorScheme.current.primary else MaterialTheme.colorScheme.outline
             )
-            .toggleable(value = isChecked) { checked ->
+            .toggleable(value = isChecked,
+                enabled = dependenceState.value,
+                ) { checked ->
                 write(checked)
             }
-            .padding(horizontal = 16.dp, vertical = 20.dp),
+            .padding(horizontal = Dimens.medium.dp, vertical = Dimens.large.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-
-        icon?.let {
-            Icon(
-                imageVector = icon,
-                contentDescription = null,
-                modifier = Modifier
-                    .padding(start = 8.dp, end = 16.dp)
-                    .size(24.dp),
-                tint = if (isChecked) LocalColorScheme.current.onPrimary else LocalColorScheme.current.surface
-            )
-        }
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(start = if (icon == null) 12.dp else 0.dp, end = 12.dp)
-        ) {
+        ParseIcon(
+            icon = icon,
+            enabled = dependenceState.value,
+            tint = if (isChecked) LocalColorScheme.current.onPrimary else LocalColorScheme.current.surface
+        )
+        MediumTextContainer(icon = icon) {
             with(MaterialTheme) {
-                Text(
+                PreferenceItemTitleText(
                     text = title,
                     maxLines = 2,
+                    enabled = dependenceState.value,
                     style = preferenceTitle,
                     color = if (isChecked) LocalColorScheme.current.onPrimary else colorScheme.surface
                 )
@@ -310,6 +308,7 @@ fun PreferenceSwitchWithContainer(
         Switch(
             checked = isChecked,
             onCheckedChange = null,
+            enabled = dependenceState.value,
             modifier = Modifier.padding(start = 12.dp, end = 6.dp),
             thumbContent = thumbContent,
             colors = SwitchDefaults.colors(

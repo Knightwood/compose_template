@@ -31,6 +31,8 @@ import androidx.compose.ui.unit.sp
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.kiylx.compose_lib.common.asDataFlow
+import com.kiylx.compose_lib.pref_component.Typography.preferenceMediumTitle
+import com.kiylx.compose_lib.theme3.applyOpacity
 import kotlinx.coroutines.launch
 
 private const val TAG = "PrefCheckBoxGroup"
@@ -43,13 +45,8 @@ private const val TAG = "PrefCheckBoxGroup"
 fun PreferenceCheckBoxGroup(
     keyName: String,
     labels: List<String>,
-    contentPadding: PaddingValues = PaddingValues(
-        start = 8.dp,
-        top = 8.dp,
-        bottom = 12.dp,
-        end = 8.dp
-    ),
     enabled: Boolean = true,
+    dependenceKey:String?=null,
     changed: (newIndex: List<Int>) -> Unit = {},
 ) {
     fun getStr(list: List<Int>): String {
@@ -71,15 +68,18 @@ fun PreferenceCheckBoxGroup(
 
     }
 
-    val key = stringPreferencesKey(keyName)
     val scope = rememberCoroutineScope()
-    val dataStore = LocalPrefs.current.dataStore()
+    val prefStoreHolder = LocalPrefs.current
+    val pref =prefStoreHolder.getReadWriteTool(keyName = keyName, defaultValue = "")
+    //注册自身节点，并且获取目标节点的状态
+    val dependenceState = prefStoreHolder.getDependence(keyName,enabled,dependenceKey).enableState
+
     val selectedList = remember {
         mutableStateListOf<Int>();
     }
     //读取prefs
     LaunchedEffect(key1 = Unit, block = {
-        dataStore.asDataFlow(key, "").collect { s ->
+        pref.read().collect { s ->
             selectedList.clear()
             selectedList.addAll(genList(s))//根据字符串重新生成list
             changed(selectedList)
@@ -89,9 +89,7 @@ fun PreferenceCheckBoxGroup(
     //写入prefs
     fun write() {
         scope.launch {
-            dataStore.edit {
-                it[key] = getStr(selectedList)
-            }
+            pref.write(getStr(selectedList))
         }
     }
 
@@ -105,8 +103,8 @@ fun PreferenceCheckBoxGroup(
             PreferenceCheckBoxItem(
                 text = labels[pos],
                 selected = checked,
-                contentPadding = contentPadding,
-                enabled = enabled,
+                enabled = dependenceState.value,
+
                 onCheckedChanged = { bol ->
                     if (bol) {
                         selectedList.add(pos)
@@ -126,12 +124,6 @@ fun PreferenceCheckBoxItem(
     text: String,
     selected: Boolean,
     enabled: Boolean,
-    contentPadding: PaddingValues = PaddingValues(
-        start = 8.dp,
-        top = 8.dp,
-        bottom = 12.dp,
-        end = 8.dp
-    ),
     onCheckedChanged: (newValue: Boolean) -> Unit
 ) {
     var checked = selected
@@ -147,12 +139,13 @@ fun PreferenceCheckBoxItem(
         Row(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(contentPadding),
+                .padding(horizontal = Dimens.all.horizontal.dp, vertical =Dimens.small_s.dp ),
             verticalAlignment = Alignment.CenterVertically,
         ) {
 
             Checkbox(
                 checked = checked,
+                enabled=enabled,
                 onCheckedChange = {
                     checked = it
                     onCheckedChanged(checked)
@@ -165,11 +158,11 @@ fun PreferenceCheckBoxItem(
             Text(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(start = 10.dp),
+                    .padding(start = Dimens.text.start.dp,end =Dimens.text.end.dp),
                 text = text,
                 maxLines = 1,
-                style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp),
-                color = MaterialTheme.colorScheme.onSurface,
+                style = preferenceMediumTitle,
+                color = MaterialTheme.colorScheme.onSurface.applyOpacity(enabled) ,
                 overflow = TextOverflow.Ellipsis
             )
         }

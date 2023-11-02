@@ -7,9 +7,6 @@ import androidx.compose.ui.unit.sp
 
 object Dimens {
 
-    const val horizontal = 8
-    const val vertical = 16
-
     const val small_ss = 2
     const val small_s = 4
     const val small = 8
