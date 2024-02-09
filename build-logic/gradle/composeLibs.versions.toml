@@ -1,0 +1,30 @@
+[versions]
+lifecycle_version = "2.7.0"
+nav_version = "2.7.4"
+constraint_layout_version = "1.1.0-alpha07"
+activity_compose_version = "1.7.2"
+
+#####################################其他组件库#############################
+lottie_version = "4.2.0"
+coil_version = "2.4.0"
+
+[libraries]
+#lifecycle
+# Lifecycle utilities for Compose
+androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle_version" }
+# ViewModel utilities for Compose
+androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle_version" }
+
+#activity
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity_compose_version" }
+#布局
+androidx-constraintLayout-compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraint_layout_version" }
+#导航
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "nav_version" }
+
+#####################################其他组件库#############################
+lottie-compose ={ module = "com.airbnb.android:lottie-compose",version.ref="lottie_version"}
+coil-compose ={ module = "io.coil-kt:coil-compose",version.ref="coil_version"}
+
+[plugins]
+

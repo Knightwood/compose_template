@@ -1,6 +1,10 @@
+import com.kiylx.common.logic.*
+import com.kiylx.common.dependences.*
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    alias(buildLibs.plugins.buildLogic.android.library.compose)
 }
 
 android {
@@ -30,56 +34,20 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Android.compose_version
-    }
-    packagingOptions {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
+
 }
 
 dependencies {
-    implementation(AndroidX_KTX.core)
-    implementation(AndroidX.appCompat)
-    //Coroutines
-    implementation(Coroutines.android)
-    //lifecycle
-    implementation(Lifecycle_KTX.livedata)
-    implementation(Lifecycle_KTX.viewmodel)
-    //ktx
-    implementation(AndroidX_KTX.fragment)
-    implementation(AndroidX_KTX.activity)
-    implementation(AndroidX.material)
+    implementation(buildLibs.bundles.bundleAndroidx)
+    kotlinProject()
+    androidTest()
 
-    //compose
-    implementation(Compose.activityCompose)
-    implementation(Compose.composeUi)
-    implementation(Compose.composeUiToolingPreview)
-    implementation(Compose.composeFoundation)
-    implementation(Compose.composeMaterial3)
-    implementation(Compose.composeRuntime)
-    implementation(Compose.navigation)
-    implementation(Accompanist.systemuicontroller)
-    implementation(Compose.composeConstraintLayout)
-    api(Compose.composeMaterialIconsExtended)
-    api(Compose.composeMaterial3WindowSizeClass)
-    implementation("androidx.compose.ui:ui:${Android.compose_version}")
-    implementation("androidx.compose.ui:ui-tooling-preview:${Android.compose_version}")
     //datastore
-    implementation(Datastore.datastorePrefs)
-    implementation(Datastore.datastore)
+    implementation(AndroidX.libs.dataStore.datastorePrefs)
+    implementation(AndroidX.libs.dataStore.datastore)
 
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
-
-    implementation(Tools.mmkv)
-    implementation(Tools.svgSupport)
-    api(ComposeTools.Coil.coil)
-    api(Tools.m3Color)
+    implementation(OtherLibs.libs.mmkv)
+//    implementation(Tools.svgSupport)
+    api(composeLibs.coil.compose)
+    api(OtherLibs.libs.m3Color)
 }
