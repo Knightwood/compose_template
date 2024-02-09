@@ -5,6 +5,8 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     kotlin("plugin.serialization") version "1.9.0"
+    alias(buildLibs.plugins.buildLogic.android.library.empty)
+
 }
 
 android {
@@ -44,16 +46,16 @@ dependencies {
 
     //Retrofit
     api(IO.libs.retrofit2.core)
-    api(IO.libs.retrofit2..logging)//日志打印
-    api(IO.libs.retrofit2..converterGson)
-    api(IO.libs.retrofit2..converterScalars)
+    api(IO.libs.retrofit2.logging)//日志打印
+    api(IO.libs.retrofit2.converterGson)
+    api(IO.libs.retrofit2.converterScalars)
     api(Kotlin.libs.serialization.serialization160rc)
-    api(IO.libs.retrofit2..converterKotlin)
+    api(IO.libs.retrofit2.converterKotlin)
 
   //权限申请
     implementation(OtherLibs.libs.perms)
     //工具库
-    api(OtherLibs.libs..utilcodex)
+    api(OtherLibs.libs.utilcodex)
     implementation(OtherLibs.libs.mmkv)
 
 }

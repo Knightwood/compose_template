@@ -55,6 +55,10 @@ gradlePlugin {
             id = "kiylx.build_logic.android.library.compose"
             implementationClass = "plugin.AndroidLibraryComposeConventionPlugin"
         }
+        register("emptyPlugin") {
+            id = "kiylx.build_logic.android.library.empty"
+            implementationClass = "plugin.AndroidLibraryEmptyConventionPlugin"
+        }
 
     }
 }

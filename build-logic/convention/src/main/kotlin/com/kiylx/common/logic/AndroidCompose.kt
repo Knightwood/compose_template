@@ -68,9 +68,9 @@ internal fun Project.configureAndroidCompose(
             // Optional - Add window size utils
             implementation("androidx.compose.material3:material3-window-size-class")
             // Optional - Integration with activities
-            implementation(that.composeLibs.libFind("androidx-activity-compose"))
+            implementation(that.composeLibs2.libFind("androidx-activity-compose"))
             // Optional - Integration with ViewModels
-            implementation(that.composeLibs.libFind("androidx-lifecycle-viewmodel-compose"))
+            implementation(that.composeLibs2.libFind("androidx-lifecycle-viewmodel-compose"))
             // Optional - Integration with LiveData
             implementation("androidx.compose.runtime:runtime-livedata")
 

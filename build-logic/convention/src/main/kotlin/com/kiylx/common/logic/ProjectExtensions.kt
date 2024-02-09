@@ -15,11 +15,11 @@ import org.gradle.kotlin.dsl.getByType
 //而不是build-logic module的 setting.gradle.kt 中创建的那个名称。
 //如果插件是在build-logic的build.gradle.kt中应用插件，就得是在build-logic的setting.gradle.kt文件中创建catalogs文件的那个名称
 //所以，直接让build-logic模块setting.gradle.kt文件中注册的名称和项目的setting.gradle.kt文件中注册的名称一致，即可不用关心名称错乱问题
-val Project.libs
+val Project.libs2
     get(): VersionCatalog = extensions.getByType<VersionCatalogsExtension>()
         .named("buildLibs")
 
-val Project.composeLibs
+val Project.composeLibs2
     get(): VersionCatalog = extensions.getByType<VersionCatalogsExtension>()
         .named("composeLibs")
 

@@ -70,9 +70,6 @@ implementation(buildLibs.bundles.bundleAndroidx)
 
     implementation(Compose.libs.accompanist.systemUiController)
     implementation(composeLibs.androidx.constraintLayout.compose)
-    //下拉刷新，上拉加载
-//    implementation(ComposeTools.pullRefresh)
-//    implementation(Work.manager)
     implementation("com.github.Knightwood:compose-material3-preference:1.0.2")
     // For AppWidgets support
 //    implementation(Compose.libs.glance.glance)
