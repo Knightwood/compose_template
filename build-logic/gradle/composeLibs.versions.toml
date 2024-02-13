@@ -3,10 +3,12 @@ lifecycle_version = "2.7.0"
 nav_version = "2.7.4"
 constraint_layout_version = "1.1.0-alpha07"
 activity_compose_version = "1.7.2"
-
+glance_version = "1.0.0"
+accompanist_version = "0.31.3-beta"
 #####################################其他组件库#############################
 lottie_version = "4.2.0"
 coil_version = "2.4.0"
+m3_compose_preference = "1.0.2"
 
 [libraries]
 #lifecycle
@@ -21,10 +23,27 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 androidx-constraintLayout-compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraint_layout_version" }
 #导航
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "nav_version" }
+#glance
+androidx-glance-appwidget = { module = "androidx.glance:glance-appwidget", version.ref = "glance_version" }
+androidx-glance-material3 = { module = "androidx.glance:glance-material3", version.ref = "glance_version" }
+
+#Accompanist
+google-accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanist_version" }
+google-accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist_version" }
+google-accompanist-systemUiController = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist_version" }
+google-accompanist-webView = { module = "com.google.accompanist:accompanist-webview", version.ref = "accompanist_version" }
+google-accompanist-pagerLayouts = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanist_version" }
+google-accompanist-pagerIndicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanist_version" }
+google-accompanist-flowlayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanist_version" }
 
 #####################################其他组件库#############################
-lottie-compose ={ module = "com.airbnb.android:lottie-compose",version.ref="lottie_version"}
-coil-compose ={ module = "io.coil-kt:coil-compose",version.ref="coil_version"}
+lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottie_version" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil_version" }
+
+# knight
+github-knightwood-m3preference-compose = { module = "com.github.Knightwood:compose-material3-preference", version.ref = "m3_compose_preference" }
 
 [plugins]
 
+[bundles]
+glance = ["androidx-glance-appwidget", "androidx-glance-material3"]

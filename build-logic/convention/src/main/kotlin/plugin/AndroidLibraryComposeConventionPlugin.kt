@@ -11,14 +11,12 @@ import org.gradle.kotlin.dsl.getByType
 class AndroidLibraryComposeConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         println("配置compose")
+        //配置compose
         with(target) {
-            //配置compose
-            with(target) {
-                pluginManager.apply("com.android.library")
+            pluginManager.apply("com.android.library")
 
-                val extension = extensions.getByType<LibraryExtension>()
-                configureAndroidCompose(extension)
-            }
+            val extension = extensions.getByType<LibraryExtension>()
+            configureAndroidCompose(extension)
         }
     }
 }

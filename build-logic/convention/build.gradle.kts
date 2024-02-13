@@ -27,12 +27,13 @@ dependencies {
 //    implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 //    implementation(files(composeLibs.javaClass.superclass.protectionDomain.codeSource.location))
 }
-//tasks {
-//    validatePlugins {
-//        enableStricterValidation = true
-//        failOnWarning = true
-//    }
-//}
+
+tasks {
+    validatePlugins {
+        enableStricterValidation = true
+        failOnWarning = true
+    }
+}
 
 //tasks.register("registerVersionCatalogs"){
 //    doLast{
@@ -58,6 +59,14 @@ gradlePlugin {
         register("emptyPlugin") {
             id = "kiylx.build_logic.android.library.empty"
             implementationClass = "plugin.AndroidLibraryEmptyConventionPlugin"
+        }
+        register("roomPlugin") {
+            id = "kiylx.build_logic.android.library.room"
+            implementationClass = "plugin.AndroidRoomConventionPlugin"
+        }
+        register("hiltPlugin") {
+            id = "kiylx.build_logic.android.library.hilt"
+            implementationClass = "plugin.AndroidLibraryHiltConventionPlugin"
         }
 
     }

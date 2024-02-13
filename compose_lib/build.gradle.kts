@@ -47,7 +47,8 @@ dependencies {
     implementation(AndroidX.libs.dataStore.datastore)
 
     implementation(OtherLibs.libs.mmkv)
-//    implementation(Tools.svgSupport)
     api(composeLibs.coil.compose)
-    api(OtherLibs.libs.m3Color)
+
+//    implementation(Tools.svgSupport)
+//    api(OtherLibs.libs.m3Color)
 }

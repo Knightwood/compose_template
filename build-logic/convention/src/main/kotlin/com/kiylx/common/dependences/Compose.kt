@@ -18,31 +18,7 @@ class ComposeLibs internal constructor() {
  * 一些命名的集合
  */
 class ComposeLibNames internal constructor() {
-    val someLibName = SomeLibName
     val composeBom = ComposeWithBomName
-}
-
-
-/**
- * 一些常用组件名，
- */
-object SomeLibName {
-
-    // Lifecycle utilities for Compose
-    const val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-compose"
-
-    // ViewModel utilities for Compose
-    const val lifecycleViewModel = "androidx.lifecycle:lifecycle-viewmodel-compose"
-
-    //activity
-    const val activityCompose = "androidx.activity:activity-compose"
-
-    //布局
-    const val constraintLayout =
-        "androidx.constraintlayout:constraintlayout-compose"
-
-    //导航
-    const val navigation = "androidx.navigation:navigation-compose"
 }
 
 /**

@@ -1,11 +1,13 @@
 import com.kiylx.common.dependences.OtherLibs
 import com.kiylx.common.logic.*
 import com.kiylx.common.dependences.Compose
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     kotlin("plugin.serialization") version "1.9.0"
     alias(buildLibs.plugins.buildLogic.android.app.compose)
+    alias(buildLibs.plugins.buildLogic.android.library.hilt)
 }
 
 android {
@@ -55,24 +57,21 @@ android {
         }
     }
 }
-
+kapt{}
 dependencies {
-implementation(buildLibs.bundles.bundleAndroidx)
+    implementation(buildLibs.bundles.bundleAndroidx)
     kotlinProject()
     androidTest()
 
     //权限申请
     implementation(OtherLibs.libs.perms)
-    //lib
+    //module
     implementation(project(":libx"))
     implementation(project(":compose_lib"))
 //    implementation(project(":icon"))
 
     implementation(Compose.libs.accompanist.systemUiController)
     implementation(composeLibs.androidx.constraintLayout.compose)
-    implementation("com.github.Knightwood:compose-material3-preference:1.0.2")
-    // For AppWidgets support
-//    implementation(Compose.libs.glance.glance)
-    // For interop APIs with Material 3
-//    implementation(Compose.libs.glance.glance_material3)
+    implementation(composeLibs.github.knightwood.m3preference.compose)
+
 }

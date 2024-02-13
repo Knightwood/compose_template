@@ -39,6 +39,8 @@ fun VersionCatalog.libFind(libName: String) = findLibrary(libName).get()
 
 //引入依赖
 fun DependencyHandlerScope.implementation(str: Any) = "implementation"(str)
+fun DependencyHandlerScope.annotationProcessor(str: Any) = "annotationProcessor"(str)
+fun DependencyHandlerScope.testImplementation(str: Any) = "testImplementation"(str)
 
 fun DependencyHandlerScope.api(str: Any) = "api"(str)
 

@@ -6,4 +6,5 @@ plugins {
     alias(buildLibs.plugins.android.application) apply false
     alias(buildLibs.plugins.kotlin.android) apply false
     alias(buildLibs.plugins.kotlin.serialization) apply false
+    alias(buildLibs.plugins.google.hilt.android) apply false
 }
