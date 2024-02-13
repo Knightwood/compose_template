@@ -12,12 +12,12 @@ fun DependencyHandlerScope.configComposeModuleDeps(that: Project) {
     val composeBomVersion = AndroidBuildCode.compose_bom
 
     val composeBom = platform("androidx.compose:compose-bom:${composeBomVersion}")
-    implementation(composeBom)
-    androidTestImplementation(composeBom)
+    implementationDeps(composeBom)
+    androidTestImplementationDeps(composeBom)
 
     // Choose one of the following:
     // Material Design 3
-    implementation("androidx.compose.material3:material3")
+    implementationDeps("androidx.compose.material3:material3")
     // or Material Design 2
 //          implementation("androidx.compose.material:material")
     // or skip Material Design and build directly on top of foundational components
@@ -27,49 +27,49 @@ fun DependencyHandlerScope.configComposeModuleDeps(that: Project) {
 //          implementation("androidx.compose.ui:ui")
 
     // Android Studio Preview support
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    debugImplementation("androidx.compose.ui:ui-tooling")
+    implementationDeps("androidx.compose.ui:ui-tooling-preview")
+    debugImplementationDeps("androidx.compose.ui:ui-tooling")
 
     // UI Tests
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    androidTestImplementationDeps("androidx.compose.ui:ui-test-junit4")
+    debugImplementationDeps("androidx.compose.ui:ui-test-manifest")
 
     // Optional - Included automatically by material, only add when you need
     // the icons but not the material library (e.g. when using Material3 or a
     // custom design system based on Foundation)
-    implementation("androidx.compose.material:material-icons-core")
+    implementationDeps("androidx.compose.material:material-icons-core")
     // Optional - Add full set of material icons
 //          implementation("androidx.compose.material:material-icons-extended")
     // Optional - Add window size utils
-    implementation("androidx.compose.material3:material3-window-size-class")
+    implementationDeps("androidx.compose.material3:material3-window-size-class")
     // Optional - Integration with activities
-    implementation(that.composeLibs2.libFind("androidx-activity-compose"))
+    implementationDeps(that.composeLibs2.libFind("androidx-activity-compose"))
     // Optional - Integration with ViewModels
-    implementation(that.composeLibs2.libFind("androidx-lifecycle-viewmodel-compose"))
+    implementationDeps(that.composeLibs2.libFind("androidx-lifecycle-viewmodel-compose"))
     // Optional - Integration with LiveData
-    implementation("androidx.compose.runtime:runtime-livedata")
+    implementationDeps("androidx.compose.runtime:runtime-livedata")
 
     //test
-    androidTestImplementation(platform("androidx.compose:compose-bom:${composeBomVersion}"))
+    androidTestImplementationDeps(platform("androidx.compose:compose-bom:${composeBomVersion}"))
 
 }
 
-fun DependencyHandlerScope.configIo() {
+fun DependencyHandlerScope.configIo(way: String = implementationDeps) {
 //Retrofit
-    api(IO.libs.retrofit2.core)
-    api(IO.libs.retrofit2.logging)//日志打印
-    api(IO.libs.retrofit2.converterScalars)
-    api(Kotlin.libs.serialization.serialization160rc)
-    api(IO.libs.retrofit2.converterKotlin)
+    way(IO.libs.retrofit2.core)
+    way(IO.libs.retrofit2.logging)//日志打印
+    way(IO.libs.retrofit2.converterScalars)
+    way(Kotlin.libs.serialization.serialization160rc)
+    way(IO.libs.retrofit2.converterKotlin)
 }
 
-fun DependencyHandlerScope.kotlinProject() {
-    implementation(Kotlin.libs.coroutines.core)
-    implementation(Kotlin.libs.coroutines.android)
+fun DependencyHandlerScope.kotlinProject(way: String = implementationDeps) {
+    way(Kotlin.libs.coroutines.core)
+    way(Kotlin.libs.coroutines.android)
 }
 
 fun DependencyHandlerScope.androidTest() {
-    testImplementation(AndroidX.libs.test.jUnit)
-    androidTestImplementation(AndroidX.libs.test.androidJUnit)
-    androidTestImplementation(AndroidX.libs.test.espresso)
+    testImplementationDeps(AndroidX.libs.test.jUnit)
+    androidTestImplementationDeps(AndroidX.libs.test.androidJUnit)
+    androidTestImplementationDeps(AndroidX.libs.test.espresso)
 }

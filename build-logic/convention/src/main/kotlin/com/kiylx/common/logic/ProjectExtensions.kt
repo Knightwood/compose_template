@@ -1,11 +1,9 @@
 package com.kiylx.common.logic
 
 
-import com.kiylx.common.dependences.AndroidBuildCode
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalog
 import org.gradle.api.artifacts.VersionCatalogsExtension
-import org.gradle.kotlin.dsl.DependencyHandlerScope
 import org.gradle.kotlin.dsl.getByType
 
 //快速访问libs和composeLibs的扩展属性
@@ -38,32 +36,25 @@ val Project.composeLibs2
 fun VersionCatalog.libFind(libName: String) = findLibrary(libName).get()
 
 //引入依赖
-fun DependencyHandlerScope.implementation(str: Any) = "implementation"(str)
-fun DependencyHandlerScope.annotationProcessor(str: Any) = "annotationProcessor"(str)
+val implementationDeps: String
+    get() = "implementation"
+val compileOnlyDeps: String
+    get() = "compileOnly"
+
+val annotationProcessorDeps: String
+    get() = "annotationProcessor"
 
 /**
  * 对于引入注解处理器，如果是java项目，可使用annotationProcessor("注解处理器库")
  * 对于kotlin项目，使用kap("注解处理器库")，kapt兼容java的注解处理。
  * 还可以用ksp取代kapt,使用ksp("注解处理器库")
  */
-fun DependencyHandlerScope.kaptAnnotationProcessor(str: Any) = "kapt"(str)
-fun DependencyHandlerScope.kspAnnotationProcessor(str: Any) = "ksp"(str)
-fun DependencyHandlerScope.testImplementation(str: Any) = "testImplementation"(str)
+val kaptDeps: String get() = "kapt"
+val kspDeps: String get() = "ksp"
+val testImplementationDeps: String get() = "testImplementation"
 
-fun DependencyHandlerScope.api(str: Any) = "api"(str)
+val apiDeps: String get() = "api"
 
-fun DependencyHandlerScope.debugImplementation(str: Any) = "debugImplementation"(str)
+val debugImplementationDeps: String get() = "debugImplementation"
 
-fun DependencyHandlerScope.androidTestImplementation(str: Any) = "androidTestImplementation"(str)
-
-//带版本号的
-fun DependencyHandlerScope.implementation(str: String, ver: String) = "implementation"("$str:$ver")
-
-fun DependencyHandlerScope.api(str: String, ver: String) = "api"(str)
-
-fun DependencyHandlerScope.debugImplementation(str: String, ver: String) =
-    "debugImplementation"("$str:$ver")
-
-fun DependencyHandlerScope.androidTestImplementation(str: String, ver: String) =
-    "androidTestImplementation"("$str:$ver")
-
+val androidTestImplementationDeps: String get() = "androidTestImplementation"

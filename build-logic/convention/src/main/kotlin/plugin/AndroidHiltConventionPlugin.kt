@@ -24,8 +24,8 @@ class AndroidHiltConventionPlugin : Plugin<Project> {
                 }
 
                 dependencies {
-                    implementation(that.libs2.libFind("google-hilt-android"))
-                    kaptAnnotationProcessor(that.libs2.libFind("google-hilt-android-compiler"))
+                    implementationDeps(that.libs2.libFind("google-hilt-android"))
+                    kaptDeps(that.libs2.libFind("google-hilt-android-compiler"))
                 }
 
             }

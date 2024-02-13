@@ -39,7 +39,7 @@ android {
 
 dependencies {
     compileOnly(buildLibs.bundles.bundleAndroidx)
-    kotlinProject()
+    kotlinProject(compileOnlyDeps)
     androidTest()
 
     //datastore

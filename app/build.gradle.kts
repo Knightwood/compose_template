@@ -71,7 +71,7 @@ dependencies {
     implementation(composeLibs.androidx.constraintLayout.compose)
 
     //权限申请
-    implementation(OtherLibs.libs.perms)
+    implementation(others.github.perms)
     implementation(others.github.utilcodex)
     implementation(others.github.mmkv)
 

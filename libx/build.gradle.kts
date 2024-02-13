@@ -1,4 +1,3 @@
-import com.kiylx.common.dependences.*
 import com.kiylx.common.logic.*
 
 plugins {
@@ -42,10 +41,10 @@ android {
 
 dependencies {
     compileOnly(buildLibs.bundles.bundleAndroidx)
-    kotlinProject()
+    kotlinProject(compileOnlyDeps)
     androidTest()
     //Retrofit
-    configIo()
+    configIo(apiDeps)
     //权限申请
     compileOnly(others.github.perms)
     //工具库

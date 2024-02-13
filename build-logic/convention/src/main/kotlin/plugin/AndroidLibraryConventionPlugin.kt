@@ -29,11 +29,13 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 compileSdk = AndroidBuildCode.compileSdk
                 defaultConfig {
                     minSdk = AndroidBuildCode.minSdk
-                    targetSdk = AndroidBuildCode.targetSdk
+                    lint.targetSdk = AndroidBuildCode.targetSdk
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 //                    vectorDrawables {
 //                        useSupportLibrary = true
 //                    }
+                    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+                    consumerProguardFiles("consumer-rules.pro")
                 }
 
                 compileOptions {

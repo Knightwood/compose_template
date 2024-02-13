@@ -1,11 +1,9 @@
 package plugin
 
-import com.android.build.api.dsl.LibraryExtension
 import com.kiylx.common.logic.*
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.getByType
 
 class AndroidRoomConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -17,17 +15,16 @@ class AndroidRoomConventionPlugin : Plugin<Project> {
             }
             libraryOrApp {
                 dependencies {
-
-                    implementation(that.libs2.libFind("androidx-room-runtime"))
-                    annotationProcessor(that.libs2.libFind("androidx-room-compiler"))
+                    implementationDeps(that.libs2.libFind("androidx-room-runtime"))
+                    annotationProcessorDeps(that.libs2.libFind("androidx-room-compiler"))
                     // To use Kotlin annotation processing tool (kapt)
-                    kaptAnnotationProcessor(that.libs2.libFind("androidx-room-compiler"))
+                    kaptDeps(that.libs2.libFind("androidx-room-compiler"))
                     // optional - Kotlin Extensions and Coroutines support for Room
-                    implementation(that.libs2.libFind("androidx-room-ktx"))
+                    implementationDeps(that.libs2.libFind("androidx-room-ktx"))
                     // optional - Test helpers
-                    testImplementation(that.libs2.libFind("androidx-room-testing"))
+                    testImplementationDeps(that.libs2.libFind("androidx-room-testing"))
                     // optional - Paging 3 Integration
-                    implementation(that.libs2.libFind("androidx-room-paging"))
+                    implementationDeps(that.libs2.libFind("androidx-room-paging"))
 
 //                    val room_version = "2.6.1"
                     // To use Kotlin Symbol Processing (KSP)
