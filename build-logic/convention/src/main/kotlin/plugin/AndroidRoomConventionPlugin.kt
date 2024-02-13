@@ -15,14 +15,13 @@ class AndroidRoomConventionPlugin : Plugin<Project> {
             with(pluginManager) {
                 apply("org.jetbrains.kotlin.kapt")
             }
-            val extension = extensions.getByType<LibraryExtension>()
-            extension.apply {
+            libraryOrApp {
                 dependencies {
 
                     implementation(that.libs2.libFind("androidx-room-runtime"))
                     annotationProcessor(that.libs2.libFind("androidx-room-compiler"))
                     // To use Kotlin annotation processing tool (kapt)
-                    "kapt"(that.libs2.libFind("androidx-room-compiler"))
+                    kaptAnnotationProcessor(that.libs2.libFind("androidx-room-compiler"))
                     // optional - Kotlin Extensions and Coroutines support for Room
                     implementation(that.libs2.libFind("androidx-room-ktx"))
                     // optional - Test helpers

@@ -40,6 +40,14 @@ fun VersionCatalog.libFind(libName: String) = findLibrary(libName).get()
 //引入依赖
 fun DependencyHandlerScope.implementation(str: Any) = "implementation"(str)
 fun DependencyHandlerScope.annotationProcessor(str: Any) = "annotationProcessor"(str)
+
+/**
+ * 对于引入注解处理器，如果是java项目，可使用annotationProcessor("注解处理器库")
+ * 对于kotlin项目，使用kap("注解处理器库")，kapt兼容java的注解处理。
+ * 还可以用ksp取代kapt,使用ksp("注解处理器库")
+ */
+fun DependencyHandlerScope.kaptAnnotationProcessor(str: Any) = "kapt"(str)
+fun DependencyHandlerScope.kspAnnotationProcessor(str: Any) = "ksp"(str)
 fun DependencyHandlerScope.testImplementation(str: Any) = "testImplementation"(str)
 
 fun DependencyHandlerScope.api(str: Any) = "api"(str)

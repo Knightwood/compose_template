@@ -1,16 +1,11 @@
 package com.kiylx.common.logic
 
-import com.android.build.api.dsl.ApplicationExtension
 import com.kiylx.common.dependences.AndroidBuildCode
 import com.kiylx.common.dependences.AndroidX
-import com.kiylx.common.dependences.Compose
 import com.kiylx.common.dependences.IO
 import com.kiylx.common.dependences.Kotlin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.DependencyHandlerScope
-import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.getByType
 
 
 fun DependencyHandlerScope.configComposeModuleDeps(that: Project) {

@@ -6,8 +6,8 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     kotlin("plugin.serialization") version "1.9.0"
-    alias(buildLibs.plugins.buildLogic.android.app.compose)
-    alias(buildLibs.plugins.buildLogic.android.library.hilt)
+    alias(buildLibs.plugins.buildLogic.android.compose)
+    alias(buildLibs.plugins.buildLogic.android.hilt)
 }
 
 android {
@@ -70,7 +70,7 @@ dependencies {
     implementation(project(":compose_lib"))
 //    implementation(project(":icon"))
 
-    implementation(Compose.libs.accompanist.systemUiController)
+    implementation(composeLibs.google.accompanist.systemUiController)
     implementation(composeLibs.androidx.constraintLayout.compose)
     implementation(composeLibs.github.knightwood.m3preference.compose)
 

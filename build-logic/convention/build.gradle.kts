@@ -48,25 +48,25 @@ gradlePlugin {
             id = "kiylx.build_logic.android.application"
             implementationClass = "plugin.AndroidApplicationConventionPlugin"
         }
-        register("androidApplicationCompose") {
-            id = "kiylx.build_logic.android.application.compose"
-            implementationClass = "plugin.AndroidApplicationComposeConventionPlugin"
+        register("androidLibrary") {
+            id = "kiylx.build_logic.android.library"
+            implementationClass = "plugin.AndroidLibraryConventionPlugin"
         }
-        register("androidLibraryCompose") {
-            id = "kiylx.build_logic.android.library.compose"
-            implementationClass = "plugin.AndroidLibraryComposeConventionPlugin"
+        register("androidCompose") {
+            id = "kiylx.build_logic.android.compose"
+            implementationClass = "plugin.AndroidComposeConventionPlugin"
         }
         register("emptyPlugin") {
-            id = "kiylx.build_logic.android.library.empty"
-            implementationClass = "plugin.AndroidLibraryEmptyConventionPlugin"
+            id = "kiylx.build_logic.android.empty"
+            implementationClass = "plugin.AndroidEmptyConventionPlugin"
         }
         register("roomPlugin") {
-            id = "kiylx.build_logic.android.library.room"
+            id = "kiylx.build_logic.android.room"
             implementationClass = "plugin.AndroidRoomConventionPlugin"
         }
         register("hiltPlugin") {
-            id = "kiylx.build_logic.android.library.hilt"
-            implementationClass = "plugin.AndroidLibraryHiltConventionPlugin"
+            id = "kiylx.build_logic.android.hilt"
+            implementationClass = "plugin.AndroidHiltConventionPlugin"
         }
 
     }

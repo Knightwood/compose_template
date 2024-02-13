@@ -4,7 +4,7 @@ import com.kiylx.common.dependences.*
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    alias(buildLibs.plugins.buildLogic.android.library.compose)
+    alias(buildLibs.plugins.buildLogic.android.compose)
 }
 
 android {
@@ -43,12 +43,12 @@ dependencies {
     androidTest()
 
     //datastore
-    implementation(AndroidX.libs.dataStore.datastorePrefs)
-    implementation(AndroidX.libs.dataStore.datastore)
+    implementation(buildLibs.bundles.dataStore)
 
     implementation(OtherLibs.libs.mmkv)
     api(composeLibs.coil.compose)
+    api(composeLibs.androidx.navigation.compose)
 
 //    implementation(Tools.svgSupport)
-//    api(OtherLibs.libs.m3Color)
+    implementation(OtherLibs.libs.m3Color)
 }

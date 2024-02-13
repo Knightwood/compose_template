@@ -5,7 +5,7 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     kotlin("plugin.serialization") version "1.9.0"
-    alias(buildLibs.plugins.buildLogic.android.library.empty)
+    alias(buildLibs.plugins.buildLogic.android.empty)
 
 }
 

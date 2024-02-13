@@ -1,6 +1,7 @@
 package plugin
 
 import com.android.build.api.dsl.CommonExtension
+import com.android.build.api.dsl.LibraryExtension
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import com.kiylx.common.dependences.AndroidBuildCode
 import org.gradle.api.JavaVersion
@@ -12,33 +13,23 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 
 
 //通用的构建逻辑
-class AndroidApplicationConventionPlugin : Plugin<Project> {
+class AndroidLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
-        println("构建 app module")
+        println("构建 library module")
 
         with(target) {
             //配置plugin
             with(pluginManager) {
-                apply("com.android.application")
+                apply("com.android.library")
                 apply("org.jetbrains.kotlin.android")
             }
 
-            //或者可以这么写配置plugin
-//            plugins.run {
-//                apply("com.android.application")
-//                apply("org.jetbrains.kotlin.android")
-//            }
             //配置android
-            extensions.configure<BaseAppModuleExtension> {
-
-//                namespace = AndroidBuildCode.namespace
+            extensions.configure<LibraryExtension> {
                 compileSdk = AndroidBuildCode.compileSdk
                 defaultConfig {
-//                    applicationId = AndroidBuildCode.applicationId
                     minSdk = AndroidBuildCode.minSdk
                     targetSdk = AndroidBuildCode.targetSdk
-                    versionCode = AndroidBuildCode.versionCode
-                    versionName = AndroidBuildCode.versionName
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 //                    vectorDrawables {
 //                        useSupportLibrary = true
