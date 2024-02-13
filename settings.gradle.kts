@@ -17,14 +17,17 @@ dependencyResolutionManagement {
         maven("https://www.jitpack.io")
         maven("https://maven.aliyun.com/repository/public/")
         maven("https://maven.aliyun.com/repository/central")
-        maven ( "https://oss.sonatype.org/content/repositories/snapshots/" )
+        maven("https://oss.sonatype.org/content/repositories/snapshots/")
     }
-        versionCatalogs {
+    versionCatalogs {
         create("buildLibs") {
             from(files("./build-logic/gradle/libs.versions.toml"))
         }
         create("composeLibs") {
             from(files("./build-logic/gradle/composeLibs.versions.toml"))
+        }
+        create("others") {
+            from(files("./build-logic/gradle/others.versions.toml"))
         }
     }
 }

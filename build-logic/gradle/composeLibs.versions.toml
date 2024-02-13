@@ -5,10 +5,6 @@ constraint_layout_version = "1.1.0-alpha07"
 activity_compose_version = "1.7.2"
 glance_version = "1.0.0"
 accompanist_version = "0.31.3-beta"
-#####################################其他组件库#############################
-lottie_version = "4.2.0"
-coil_version = "2.4.0"
-m3_compose_preference = "1.0.2"
 
 [libraries]
 #lifecycle
@@ -37,11 +33,6 @@ google-accompanist-pagerIndicators = { module = "com.google.accompanist:accompan
 google-accompanist-flowlayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanist_version" }
 
 #####################################其他组件库#############################
-lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottie_version" }
-coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil_version" }
-
-# knight
-github-knightwood-m3preference-compose = { module = "com.github.Knightwood:compose-material3-preference", version.ref = "m3_compose_preference" }
 
 [plugins]
 

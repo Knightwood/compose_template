@@ -38,17 +38,16 @@ android {
 }
 
 dependencies {
-    implementation(buildLibs.bundles.bundleAndroidx)
+    compileOnly(buildLibs.bundles.bundleAndroidx)
     kotlinProject()
     androidTest()
 
     //datastore
     implementation(buildLibs.bundles.dataStore)
 
-    implementation(OtherLibs.libs.mmkv)
-    api(composeLibs.coil.compose)
-    api(composeLibs.androidx.navigation.compose)
+    compileOnly(others.github.mmkv)
+    compileOnly(others.coil.kt.compose)
+    compileOnly(composeLibs.androidx.navigation.compose)
 
-//    implementation(Tools.svgSupport)
-    implementation(OtherLibs.libs.m3Color)
+    implementation(others.github.m3Color)
 }

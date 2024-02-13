@@ -57,21 +57,25 @@ android {
         }
     }
 }
-kapt{}
+
 dependencies {
     implementation(buildLibs.bundles.bundleAndroidx)
     kotlinProject()
     androidTest()
 
-    //权限申请
-    implementation(OtherLibs.libs.perms)
     //module
     implementation(project(":libx"))
     implementation(project(":compose_lib"))
-//    implementation(project(":icon"))
 
     implementation(composeLibs.google.accompanist.systemUiController)
     implementation(composeLibs.androidx.constraintLayout.compose)
-    implementation(composeLibs.github.knightwood.m3preference.compose)
 
+    //权限申请
+    implementation(OtherLibs.libs.perms)
+    implementation(others.github.utilcodex)
+    implementation(others.github.mmkv)
+
+    implementation(others.github.knightwood.m3preference.compose)
+    implementation(others.coil.kt.compose)
+    implementation(composeLibs.androidx.navigation.compose)
 }

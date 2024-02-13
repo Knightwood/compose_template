@@ -41,15 +41,15 @@ android {
 }
 
 dependencies {
-    implementation(buildLibs.bundles.bundleAndroidx)
+    compileOnly(buildLibs.bundles.bundleAndroidx)
     kotlinProject()
     androidTest()
     //Retrofit
     configIo()
     //权限申请
-    implementation(OtherLibs.libs.perms)
+    compileOnly(others.github.perms)
     //工具库
-    api(OtherLibs.libs.utilcodex)
-    implementation(OtherLibs.libs.mmkv)
+    compileOnly(others.github.utilcodex)
+    compileOnly(others.github.mmkv)
 
 }

@@ -36,13 +36,8 @@ espresso-core = "3.5.1"
 androidx_work = "2.8.1"
 
 ##################################################其他依赖的版本#########################################
-leak = "2.8.1"
-coil-kt = "2.2.2"
 kotlin_serialization_ver_160rc = "1.6.0-RC"
-#knightwood工具集
-knightwood_immersion = "1.01"
-knightwood_simpleStore = "1.0"
-knightwood_activityMessenger = "1.1"
+
 
 [libraries]
 ############################################## Kotlin Gradle插件依赖库 ##################################################
@@ -128,14 +123,7 @@ androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version
 
 ################################## 其他依赖 #########################################
 serialization160rc = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin_serialization_ver_160rc" }
-leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leak" }
-coil-kt = { module = "io.coil-kt:coil", version.ref = "coil-kt" }
 
-################################## 工具 #########################################
-
-knightWood-ImmersionBar = { group = "com.github.Knightwood", name = "ImmersionBar", version.ref = "knightwood_immersion" }
-knightWood-SimpleStore = { group = "com.github.Knightwood", name = "SimpleStore", version.ref = "knightwood_simpleStore" }
-knightWood-ActivityMessenger = { group = "com.github.Knightwood", name = "ActivityMessenger", version.ref = "knightwood_activityMessenger" }
 
 [plugins]
 #application和library插件
@@ -168,10 +156,3 @@ bundleAndroidx = [
     "androidx-constraintLayout"
 ]
 dataStore = ["androidx-datastore", "androidx-datastore-preferences"]
-
-knightWoodBundle = [
-    "knightWood-ActivityMessenger",
-    "knightWood-ImmersionBar",
-    "knightWood-SimpleStore"
-]
-androidTest = ["junit", "androidx-test-ext-junit", "espresso-core"]

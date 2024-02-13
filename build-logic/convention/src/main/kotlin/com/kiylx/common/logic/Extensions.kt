@@ -69,7 +69,7 @@ fun DependencyHandlerScope.kotlinProject() {
 }
 
 fun DependencyHandlerScope.androidTest() {
-    "testImplementation"(AndroidX.libs.test.jUnit)
-    "androidTestImplementation"(AndroidX.libs.test.androidJUnit)
-    "androidTestImplementation"(AndroidX.libs.test.espresso)
+    testImplementation(AndroidX.libs.test.jUnit)
+    androidTestImplementation(AndroidX.libs.test.androidJUnit)
+    androidTestImplementation(AndroidX.libs.test.espresso)
 }
