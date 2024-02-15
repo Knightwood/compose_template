@@ -41,10 +41,10 @@ android {
 
 dependencies {
     compileOnly(buildLibs.bundles.bundleAndroidx)
-    kotlinProject(compileOnlyDeps)
+    compileOnly(buildLibs.bundles.kotlins)
+    compileOnly(buildLibs.bundles.retrofit2)
     androidTest()
-    //Retrofit
-    configIo(apiDeps)
+
     //权限申请
     compileOnly(others.github.perms)
     //工具库

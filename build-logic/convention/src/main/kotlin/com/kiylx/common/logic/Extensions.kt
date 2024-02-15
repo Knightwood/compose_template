@@ -2,8 +2,6 @@ package com.kiylx.common.logic
 
 import com.kiylx.common.dependences.AndroidBuildCode
 import com.kiylx.common.dependences.AndroidX
-import com.kiylx.common.dependences.IO
-import com.kiylx.common.dependences.Kotlin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.DependencyHandlerScope
 
@@ -37,7 +35,8 @@ fun DependencyHandlerScope.configComposeModuleDeps(that: Project) {
     // Optional - Included automatically by material, only add when you need
     // the icons but not the material library (e.g. when using Material3 or a
     // custom design system based on Foundation)
-    implementationDeps("androidx.compose.material:material-icons-core")
+//    implementationDeps("androidx.compose.material:material-icons-core")
+    implementationDeps("androidx.compose.material:material-icons-extended")
     // Optional - Add full set of material icons
 //          implementation("androidx.compose.material:material-icons-extended")
     // Optional - Add window size utils
@@ -54,19 +53,6 @@ fun DependencyHandlerScope.configComposeModuleDeps(that: Project) {
 
 }
 
-fun DependencyHandlerScope.configIo(way: String = implementationDeps) {
-//Retrofit
-    way(IO.libs.retrofit2.core)
-    way(IO.libs.retrofit2.logging)//日志打印
-    way(IO.libs.retrofit2.converterScalars)
-    way(Kotlin.libs.serialization.serialization160rc)
-    way(IO.libs.retrofit2.converterKotlin)
-}
-
-fun DependencyHandlerScope.kotlinProject(way: String = implementationDeps) {
-    way(Kotlin.libs.coroutines.core)
-    way(Kotlin.libs.coroutines.android)
-}
 
 fun DependencyHandlerScope.androidTest() {
     testImplementationDeps(AndroidX.libs.test.jUnit)

@@ -39,15 +39,27 @@ android {
 
 dependencies {
     compileOnly(buildLibs.bundles.bundleAndroidx)
-    kotlinProject(compileOnlyDeps)
+    compileOnly(buildLibs.google.material){
+        exclude("androidx.activity","activity")
+        exclude("androidx.appcompat","appcompat")
+        exclude("androidx.constraintlayout","constraintlayout")
+        exclude("androidx.core","core")
+        exclude("androidx.recyclerview","recyclerview")
+    }
+    implementation(buildLibs.bundles.kotlins)
+    compileOnly(buildLibs.bundles.retrofit2)
     androidTest()
 
     //datastore
-    implementation(buildLibs.bundles.dataStore)
-
+    implementation(buildLibs.bundles.dataStore) {
+        exclude("org.jetbrains.kotlinx","kotlinx-coroutines-core")
+    }
+    implementation(others.github.svgSupport)
     compileOnly(others.github.mmkv)
     compileOnly(others.coil.kt.compose)
     compileOnly(composeLibs.androidx.navigation.compose)
+    compileOnly(composeLibs.google.accompanist.systemUiController)
+    compileOnly(composeLibs.androidx.constraintLayout.compose)
 
     implementation(others.github.m3Color)
 }

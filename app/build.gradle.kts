@@ -60,7 +60,17 @@ android {
 
 dependencies {
     implementation(buildLibs.bundles.bundleAndroidx)
-    kotlinProject()
+    implementation(buildLibs.google.material) {
+        exclude("androidx.activity", "activity")
+        exclude("androidx.appcompat", "appcompat")
+        exclude("androidx.constraintlayout", "constraintlayout")
+        exclude("androidx.core", "core")
+        exclude("androidx.recyclerview", "recyclerview")
+    }
+    implementation(others.github.knightwood.m3preference.compose)
+    implementation(others.github.knightwood.immersion)
+    implementation(buildLibs.bundles.kotlins)
+    implementation(buildLibs.bundles.retrofit2)
     androidTest()
 
     //module

@@ -2,7 +2,7 @@
 knightwood_immersion = "1.01"
 knightwood_simpleStore = "1.0"
 knightwood_activityMessenger = "1.1"
-m3_compose_preference = "1.0.2"
+m3_compose_preference = "1.0.3"
 m3_preference = "1.4"
 recyclerviewNeko = "1.2.2"
 
@@ -34,10 +34,10 @@ appUpdate = "4.0.0"
 
 [libraries]
 ################################## 工具 #########################################
-github-knightWood-ImmersionBar = { group = "com.github.Knightwood", name = "ImmersionBar", version.ref = "knightwood_immersion" }
-github-knightWood-SimpleStore = { group = "com.github.Knightwood", name = "SimpleStore", version.ref = "knightwood_simpleStore" }
-github-knightWood-ActivityMessenger = { group = "com.github.Knightwood", name = "ActivityMessenger", version.ref = "knightwood_activityMessenger" }
-github-knightwood-m3preference-compose = { module = "com.github.Knightwood:compose-material3-preference", version.ref = "m3_compose_preference" }
+github-knightwood-immersion = { group = "com.github.Knightwood", name = "ImmersionBar", version.ref = "knightwood_immersion" }
+github-knightwood-simpleStore = { group = "com.github.Knightwood", name = "SimpleStore", version.ref = "knightwood_simpleStore" }
+github-knightwood-activityMessenger = { group = "com.github.Knightwood", name = "ActivityMessenger", version.ref = "knightwood_activityMessenger" }
+github-knightwood-m3preference-compose = { module = "com.github.Knightwood:ComposePreference", version.ref = "m3_compose_preference" }
 github-knightwood-m3preference = { module = "com.github.Knightwood:material3-preference", version.ref = "m3_preference" }
 github-knightwood-recyclerviewNeko = { module = "com.github.Knightwood:RecyclerViewNeko", version.ref = "recyclerviewNeko" }
 
@@ -85,9 +85,9 @@ github-indexablerecyclerview = { module = "me.yokeyword:indexablerecyclerview", 
 
 [bundles]
 knightWoodBundle = [
-    "github-knightWood-ActivityMessenger",
-    "github-knightWood-ImmersionBar",
-    "github-knightWood-SimpleStore"
+    "github-knightwood-activityMessenger",
+    "github-knightwood-immersion",
+    "github-knightwood-simpleStore"
 ]
 usualTool = [
     "github-loadsir", "github-perms",

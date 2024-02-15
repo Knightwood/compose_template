@@ -6,7 +6,6 @@ object Kotlin {
 class KotlinLibs internal constructor(){
     val serialization=KotlinSerialization
     val coroutines=Coroutines
-    val ktor =Ktor
 }
 object KotlinSerialization {
     //kotlin序列化 kt 1.7.10
@@ -27,10 +26,4 @@ object Coroutines {
     private const val coroutinesVersion = "1.7.3"
     const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
     const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
-}
-
-object Ktor {
-    private const val version = "2.2.3"
-    const val core = "io.ktor:ktor-client-core:$version"
-    const val okhttp = "io.ktor:ktor-client-okhttp:$version"
 }
