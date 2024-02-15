@@ -137,7 +137,7 @@ fun FirstPage(navController: NavController) {
                     PreferenceSwitch(
                         keyName = "bol",
                         title = "title",
-                        dependenceKey = "Pref_Dependence_Node_Root"
+                        dependenceKey = "Pref_Dependence_Node_Root",
                         description = "description"
                     ) { state ->
                         //这里获取并修改了自身对应节点的enable状态，
