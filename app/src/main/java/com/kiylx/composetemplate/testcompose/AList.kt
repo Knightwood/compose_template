@@ -18,16 +18,16 @@ fun AList() {
     val itemsList = (0..30).toList()
     // Remember our own LazyListState
     val listState = rememberLazyListState()
-        LazyColumn(
-            modifier =Modifier.fillMaxSize(),
-            state = listState,
-        ) {
-            items(itemsList) {
-                    Text(
-                        text = it.toString(),
-                        modifier = Modifier.padding(8.dp)
-                    )
-            }
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        state = listState,
+    ) {
+        items(itemsList) {
+            Text(
+                text = it.toString(),
+                modifier = Modifier.padding(8.dp)
+            )
         }
+    }
 
 }

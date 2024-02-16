@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.view.Window
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.LocalTextStyle
@@ -12,6 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -41,6 +43,37 @@ tailrec fun Context.findWindow(): Window? =
         is ContextWrapper -> baseContext.findWindow()
         else -> null
     }
+
+/**
+ * ```
+ *         setContent {
+ *             ComposeTestTheme {
+ *                 TransparentSystemBars()
+ *                 Surface(
+ *                     modifier = Modifier
+ *                         .fillMaxSize()
+ *                         .background(MaterialTheme.colorScheme.background)
+ *                         .systemBarsPadding() //同时添加状态栏和导航栏高度对应的上下 padding
+ *                 ) {
+ *                     HomePage()
+ *                 }
+ *             }
+ *         }
+ *```
+ */
+@Composable
+fun Activity.TransparentSystemBars() {
+    WindowCompat.setDecorFitsSystemWindows(window, false)
+    val systemUiController = rememberSystemUiController()
+    val useDarkIcons = !isSystemInDarkTheme()
+    SideEffect {
+        systemUiController.setSystemBarsColor(
+            color = Color.Transparent,
+            darkIcons = useDarkIcons,
+            isNavigationBarContrastEnforced = false,
+        )
+    }
+}
 
 @Composable
 fun DynamicTheme(

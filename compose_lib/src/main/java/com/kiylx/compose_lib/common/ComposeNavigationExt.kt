@@ -65,6 +65,7 @@ fun NavController.getPrevSavedState(block: SavedStateHandle.() -> Unit) {
 }
 
 /**
+ * 与[setSavedStateResult]配合使用
  * 使用时，A->B,B然后返回。A->B时要把自己定义的targetLivedataTag字符串作为导航的参数传给B。
  * ```
  * composable(route = Route.HOME) { it: NavBackStackEntry ->

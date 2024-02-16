@@ -5,6 +5,7 @@ constraint_layout_version = "1.1.0-alpha07"
 activity_compose_version = "1.8.2"
 glance_version = "1.0.0"
 accompanist_version = "0.31.3-beta"
+androidx_material3_compose = "1.2.0"
 
 [libraries]
 #lifecycle
@@ -13,6 +14,8 @@ androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-ru
 # ViewModel utilities for Compose
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle_version" }
 
+# material3
+androidx-material3-compose = { module = "androidx.compose.material3:material3", version.ref = "androidx_material3_compose" }
 #activity
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity_compose_version" }
 #布局

@@ -15,7 +15,7 @@ fun DependencyHandlerScope.configComposeModuleDeps(that: Project) {
 
     // Choose one of the following:
     // Material Design 3
-    implementationDeps("androidx.compose.material3:material3")
+    implementationDeps(that.composeLibs2.libFind("androidx-material3-compose"))
     // or Material Design 2
 //          implementation("androidx.compose.material:material")
     // or skip Material Design and build directly on top of foundational components
