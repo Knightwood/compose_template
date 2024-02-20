@@ -2,7 +2,8 @@
 knightwood_immersion = "1.01"
 knightwood_simpleStore = "1.0"
 knightwood_activityMessenger = "1.1"
-m3_compose_preference = "1.1"
+m3_compose_preference = "1.1" #旧版
+m3_compose_preference_multi = "1.2" #拆分成了多模块
 m3_preference = "1.4"
 recyclerviewNeko = "1.2.2"
 
@@ -40,6 +41,16 @@ github-knightwood-activityMessenger = { group = "com.github.Knightwood", name = 
 github-knightwood-m3preference-compose = { module = "com.github.Knightwood:ComposePreference", version.ref = "m3_compose_preference" }
 github-knightwood-m3preference = { module = "com.github.Knightwood:material3-preference", version.ref = "m3_preference" }
 github-knightwood-recyclerviewNeko = { module = "com.github.Knightwood:RecyclerViewNeko", version.ref = "recyclerviewNeko" }
+
+# compose pref 核心组件，ui和读写工具都需要依赖这个接口库
+github-knightwood-m3preference-core = { module = "com.github.Knightwood.ComposePreference:preference-data-core", version.ref = "m3_compose_preference_multi" }
+# compose pref界面组件
+github-knightwood-m3preference-ui-compose = { module = "com.github.Knightwood.ComposePreference:preference-ui-compose", version.ref = "m3_compose_preference_multi" }
+# pref读写工具，三选一即可，没必要全引入
+github-knightwood-m3preference-util-mmkv = { module = "com.github.Knightwood.ComposePreference:preference-mmkv-util", version.ref = "m3_compose_preference_multi" }
+github-knightwood-m3preference-util-datastore = { module = "com.github.Knightwood.ComposePreference:datastore-util", version.ref = "m3_compose_preference_multi" }
+github-knightwood-m3preference-util-pref = { module = "com.github.Knightwood.ComposePreference:preference-util", version.ref = "m3_compose_preference_multi" }
+
 
 leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leak" }
 

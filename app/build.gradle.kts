@@ -67,7 +67,7 @@ dependencies {
         exclude("androidx.core", "core")
         exclude("androidx.recyclerview", "recyclerview")
     }
-    implementation(others.github.knightwood.m3preference.compose)
+//    implementation(others.github.knightwood.m3preference.compose)
     implementation(others.github.knightwood.immersion)
     implementation(buildLibs.bundles.kotlins)
     implementation(buildLibs.bundles.retrofit2)
@@ -85,7 +85,10 @@ dependencies {
     implementation(others.github.utilcodex)
     implementation(others.github.mmkv)
 
-    implementation(others.github.knightwood.m3preference.compose)
+    implementation ("com.github.Knightwood.ComposePreference:preference-data-core:1.2")
+    implementation ("com.github.Knightwood.ComposePreference:preference-ui-compose:1.2")
+    implementation ("com.github.Knightwood.ComposePreference:datastore-util:1.2")
+
     implementation(others.coil.kt.compose)
     implementation(composeLibs.androidx.navigation.compose)
 }
